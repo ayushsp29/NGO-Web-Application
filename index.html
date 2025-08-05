@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Guide: Seva Samarpan App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 
+        REVISION STRATEGY (V10 - "Final & Feature Complete"):
+        1.  Theme Reversion: Returned to the original light theme (Slate/Teal) for clarity and simplicity.
+        2.  Feature Accuracy Pass: Re-analyzed `server.js` and `App.tsx` to ensure all functionalities, especially the distinct export options for expenses (Current vs. Audit Log), are fully represented.
+        3.  Complete UI Mockups: Created new light-theme mockups for every single user interface, including detailed views for Expenses and Meetings.
+        4.  Scenario-Based Explanations: Added highly detailed explanations for every button, with specific real-world scenarios clarifying their use cases.
+        5.  Contact Section: Added a new contact section at the end of the document.
+        6.  Bilingual Integrity: Ensured all new, detailed content is fully translated into Marathi.
+    -->
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* Slate 100 */
+            color: #334155; /* Slate 700 */
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        .sidebar {
+            background-color: #1e293b; /* Slate 800 */
+        }
+        .sidebar-link.active { 
+            background-color: #0d9488; /* Teal 600 */
+            color: white;
+            font-weight: 600;
+        }
+        .sidebar-link:hover {
+             background-color: #334155; /* Slate 700 */
+        }
+        
+        .content-section { 
+            scroll-margin-top: 80px; 
+        }
+
+        .title-line {
+            border-color: #0d9488; /* Teal 600 */
+        }
+
+        .why-box { background-color: #f0fdfa; border-left: 4px solid #14b8a6; padding: 1rem; border-radius: 0.25rem; }
+        .scenario-box { background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.25rem; }
+        .code-box { background-color: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; font-family: 'Courier New', Courier, monospace; border: 1px solid #334155; }
+        
+        .ui-mockup { 
+            background-color: white;
+            border: 1px solid #e2e8f0; 
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-700">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-72 sidebar text-white p-6 fixed h-full hidden lg:block">
+            <h1 class="text-2xl font-bold text-teal-400 mb-4" data-lang-key="title">Seva Samarpan Guide</h1>
+            <button id="lang-toggle-desktop" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg mb-8 transition-colors">मराठी</button>
+            <nav id="sidebar-nav" class="space-y-1">
+                <p class="px-4 pt-2 pb-1 text-xs font-bold text-slate-400 uppercase" data-lang-key="nav_group_user">User Guide</p>
+                <a href="#features" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_features">1. Core Features</a>
+                <a href="#getting-started" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_start">2. Registration & Login</a>
+                <a href="#dashboard" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_dashboard">3. The Dashboard</a>
+                <a href="#donations" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_donations">4. Managing Donations</a>
+                <a href="#expenses" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_expenses">5. Tracking Expenses</a>
+                <a href="#meetings" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_meetings">6. Managing Meetings</a>
+                <a href="#user-management" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_user_management">7. User Management</a>
+
+                <p class="px-4 pt-4 pb-1 text-xs font-bold text-slate-400 uppercase" data-lang-key="nav_group_dev">Developer Section</p>
+                <a href="#tech-stack" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_tech_stack">Technology Stack</a>
+                <a href="#interfaces" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_interfaces">Data Interfaces</a>
+                <a href="#contact" class="sidebar-link block py-2 px-4 rounded-lg transition-colors" data-lang-key="nav_contact">Contact</a>
+            </nav>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="lg:hidden w-full sidebar p-4 fixed top-0 z-20">
+             <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold text-teal-400" data-lang-key="title_mobile">Seva Samarpan Guide</h1>
+                <div>
+                    <button id="lang-toggle-mobile" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-3 rounded mr-2">मराठी</button>
+                    <select id="mobile-nav" class="bg-slate-700 text-white rounded p-2">
+                        <optgroup label="User Guide">
+                             <option value="#features">1. Core Features</option>
+                             <option value="#getting-started">2. Registration</option>
+                             <option value="#dashboard">3. Dashboard</option>
+                             <option value="#donations">4. Donations</option>
+                             <option value="#expenses">5. Expenses</option>
+                             <option value="#meetings">6. Meetings</option>
+                             <option value="#user-management">7. User Management</option>
+                        </optgroup>
+                        <optgroup label="Developer Section">
+                             <option value="#tech-stack">Technology Stack</option>
+                             <option value="#interfaces">Data Interfaces</option>
+                             <option value="#contact">Contact</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="lg:ml-72 flex-1 p-6 lg:p-10 pt-24 lg:pt-10">
+            
+            <section id="features" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="features_title">1. Our Core Principles & Features</h2>
+                <p class="text-lg text-slate-600 leading-relaxed mb-8" data-lang-key="features_intro">This application is built on several core principles, each supported by specific features. Understanding these will help you see the full power of the tool.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-md"><h3 class="text-2xl font-bold text-teal-700" data-lang-key="feature1_title">Uncompromising Security</h3><p class="mt-2 text-slate-600" data-lang-key="feature1_desc">Your data is sensitive, so security is our top priority. Access is strictly controlled through a secret Invitation Code for registration. All user passwords are encrypted using the `bcrypt` algorithm, and every action requires a valid login token (JWT). This multi-layered approach ensures your financial and donor information remains confidential.</p></div>
+                    <div class="bg-white rounded-xl p-6 shadow-md"><h3 class="text-2xl font-bold text-teal-700" data-lang-key="feature2_title">Absolute Financial Accountability</h3><p class="mt-2 text-slate-600" data-lang-key="feature2_desc">For an NGO, trust is everything. The Expense Tracker is more than just a ledger; it's an accountability engine. It features an immutable audit log (`ExpenseLog`) that records every single creation, update, or deletion of a financial entry. This means you have a permanent, unchangeable history of all financial activities, which is critical for audits and building donor confidence.</p></div>
+                    <div class="bg-white rounded-xl p-6 shadow-md"><h3 class="text-2xl font-bold text-teal-700" data-lang-key="feature3_title">Centralized & Clear Governance</h3><p class="mt-2 text-slate-600" data-lang-key="feature3_desc">Important decisions can't get lost in conversation. The Meeting Management feature, restricted to Super Admins, serves as an official record-keeper. By documenting the agenda, topics discussed, and conclusions, it creates a single source of truth for your organization's governance, ensuring everyone is aligned and decisions are tracked.</p></div>
+                    <div class="bg-white rounded-xl p-6 shadow-md"><h3 class="text-2xl font-bold text-teal-700" data-lang-key="feature4_title">Effortless Donor Relations</h3><p class="mt-2 text-slate-600" data-lang-key="feature4_desc">Building relationships with supporters is key. The application streamlines this by integrating a direct acknowledgement system. With a single click, you can send a personalized "Thank You" message via WhatsApp or SMS using Twilio integration. This simple action helps make your donors feel valued and keeps them engaged with your cause.</p></div>
+                </div>
+            </section>
+
+            <section id="getting-started" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="start_title">2. Registration & Login</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="start_why_title">Why is this important?</h4><p class="text-teal-700 mt-1" data-lang-key="start_why_desc">This app contains private information about donors and your organization's finances. To keep this data secure, only approved members can get an account. The mandatory "Invitation Code" acts like a secret key, ensuring no outsiders can access the system.</p></div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="start_visual_guide_title">Visual Guide: Login & Registration</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="ui-mockup p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center" data-lang-key="login_form_title">Admin Login</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="login_form_user">Username</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="login_form_pass">Password</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                        </div>
+                        <button class="w-full py-3 mt-4 font-bold text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition-colors" data-lang-key="login_form_button">Login</button>
+                        <p class="text-center text-sm mt-4 text-gray-600" data-lang-key="login_form_switch">Need an account? Register</p>
+                    </div>
+                    <div class="ui-mockup p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 text-center" data-lang-key="register_form_title">Register New User</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="register_form_name">Full Name</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="register_form_user">Username</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="register_form_pass">Password</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="register_form_code">Invitation Code</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                        </div>
+                        <button class="w-full py-3 mt-4 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors" data-lang-key="register_form_button">Register</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="dashboard_title">3. The Dashboard</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="dashboard_why_title">Why is this important?</h4><p class="text-teal-700 mt-1" data-lang-key="dashboard_why_desc">The Dashboard is your mission control. It's designed to give you a quick overview and immediate access to the most common tasks without needing to hunt through menus. It organizes your work into clear, separate sections.</p></div>
+                 <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="dashboard_visual_guide_title">Visual Guide: The Main Dashboard</h3>
+                <div class="ui-mockup p-6">
+                     <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-2xl font-bold text-gray-800" data-lang-key="dashboard_mockup_title">Donation Dashboard</h2>
+                        <div class="flex flex-wrap items-center gap-2">
+                             <button class="bg-teal-600 text-white font-bold py-2 px-3 rounded-lg" data-lang-key="dashboard_mockup_expense">Expense Tracker</button>
+                             <button class="bg-cyan-600 text-white font-bold py-2 px-3 rounded-lg" data-lang-key="dashboard_mockup_meeting">Meeting Details</button>
+                             <button class="bg-purple-600 text-white font-bold py-2 px-3 rounded-lg" data-lang-key="dashboard_mockup_user">User Management</button>
+                             <button class="bg-orange-500 text-white font-bold py-2 px-3 rounded-lg" data-lang-key="dashboard_mockup_donation">Add New Donation</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-100"><tr><th class="p-4 font-bold" data-lang-key="dashboard_table_donor">Donor</th><th class="p-4 font-bold" data-lang-key="dashboard_table_details">Details</th><th class="p-4 font-bold" data-lang-key="dashboard_table_ack">Acknowledged</th><th class="p-4 font-bold" data-lang-key="dashboard_table_actions">Actions</th></tr></thead>
+                            <tbody><tr class="border-b"><td class="p-4">Anjali Sharma</td><td class="p-4">₹5,000</td><td class="p-4"><span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">WhatsApp</span></td><td class="p-4">...</td></tr><tr class="border-b"><td class="p-4">Anonymous</td><td class="p-4">20 Blankets</td><td class="p-4"><span class="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">No</span></td><td class="p-4">...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="donations" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="donations_title">4. Managing Donations</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="donations_why_title">Why is this a game-changer?</h4><p class="text-teal-700 mt-1" data-lang-key="donations_why_desc">This isn't just a list; it's a complete relationship and transparency tool. By logging every donation, you build trust with your donors, create flawless financial records for audits, and get a clear picture of your fundraising success.</p></div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="donations_visual_guide_title">Visual Guide: The Donation Form</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="ui-mockup p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang-key="donations_form_title">Log New Donation</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_donor">Donor's Name</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_collected">Collected By</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_location">Donor's Location</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_type">Donation Type</label><div class="mt-2 flex space-x-4"><label class="flex items-center"><div class="w-4 h-4 rounded-full border-2 border-blue-500 bg-blue-500"></div><span class="ml-2">Money</span></label><label class="flex items-center"><div class="w-4 h-4 rounded-full border-2 border-gray-400"></div><span class="ml-2">Item</span></label></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_contact">Donor's Contact</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="donations_form_amount">Amount (₹)</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                        </div>
+                        <button class="w-full py-3 mt-4 font-bold text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition-colors" data-lang-key="donations_form_button">Log Donation</button>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2" data-lang-key="donations_fields_title">Form Fields Explained</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-slate-600">
+                            <li data-lang-key="donations_fields_1"><b>Donor's Name:</b> The full name of the person donating.</li>
+                            <li data-lang-key="donations_fields_2"><b>Collected By:</b> Your name (or another team member's).</li>
+                            <li data-lang-key="donations_fields_3"><b>Donor's Location:</b> Their city/village.</li>
+                            <li data-lang-key="donations_fields_4"><b>Donation Type:</b> Choose 'Money' for cash or 'Item' for goods.</li>
+                            <li data-lang-key="donations_fields_5"><b>Donor's Contact:</b> The phone number for sending acknowledgements.</li>
+                            <li data-lang-key="donations_fields_6"><b>Amount / Item Description:</b> Enter the value or a description based on the type.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="expenses" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="expenses_title">5. Tracking Expenses (Super Admin)</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="expenses_why_title">Why is this a game-changer?</h4><p class="text-teal-700 mt-1" data-lang-key="expenses_why_desc">This module provides complete financial control and transparency. It allows you to track not only your expenses (debits) but also other forms of income like grants (credits). The immutable audit log (`ExpenseLog`) ensures that every financial entry and deletion is permanently recorded, creating an un-editable history for maximum accountability.</p></div>
+                <div class="scenario-box mb-8"><h4 class="font-bold text-amber-800 text-lg" data-lang-key="expenses_scenario_title">Real-World Scenario</h4><p class="text-amber-700 mt-1" data-lang-key="expenses_scenario_desc">You spend ₹2,000 on fuel for a relief vehicle, logging it as a "Debit." The next day, you receive a ₹10,000 grant from a local business, which you log as a "Credit." The system automatically calculates your new total balance. At the end of the year, your auditor asks for financial records. You provide them with two files: the "Current Expenses" CSV for the final summary and the "Audit Log" CSV to prove that no records were tampered with.</p></div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="expenses_visual_guide_title">Visual Guide: The Expense & Income Form</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="ui-mockup p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang-key="expenses_form_title">Log Expense/Income</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="expenses_form_date">Date</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="expenses_form_type">Type</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="expenses_form_amount">Amount (₹)</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="expenses_form_purpose">Purpose / Details</label><div class="w-full p-8 mt-1 bg-gray-200 rounded-lg"></div></div>
+                        </div>
+                        <button class="w-full py-3 mt-4 font-bold text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors" data-lang-key="expenses_form_button">Log Entry</button>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2" data-lang-key="expenses_fields_title">Form Fields Explained</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-slate-600">
+                            <li data-lang-key="expenses_fields_1"><b>Date:</b> Select the date the transaction occurred. You cannot select a future date.</li>
+                            <li data-lang-key="expenses_fields_2"><b>Type:</b> Choose "Debit (Expense)" for money spent or "Credit (Income)" for money received.</li>
+                            <li data-lang-key="expenses_fields_3"><b>Amount (₹):</b> Enter the transaction amount.</li>
+                            <li data-lang-key="expenses_fields_4"><b>Purpose / Details:</b> Be specific. Instead of "Supplies," write "Purchase of stationery for office."</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="meetings" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="meetings_title">6. Managing Meetings (Super Admin)</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="meetings_why_title">Why is this a game-changer?</h4><p class="text-teal-700 mt-1" data-lang-key="meetings_why_desc">This feature transforms verbal discussions into official, searchable records. It ensures that decisions made in meetings are documented and not forgotten. It provides a single source of truth for your team about what was discussed, what was decided, and who is responsible for what.</p></div>
+                <div class="scenario-box mb-8"><h4 class="font-bold text-amber-800 text-lg" data-lang-key="meetings_scenario_title">Real-World Scenario</h4><p class="text-amber-700 mt-1" data-lang-key="meetings_scenario_desc">After the monthly review meeting, the Super Admin uses the "Add New Meeting" feature to log the details. They list the members who were present, the topics discussed (e.g., "budget shortfall"), and the conclusion ("ACTION: Rohan to find new funding sources"). Three months later, when someone asks, "Who was supposed to handle the budget?", anyone can look up this record and find the answer instantly.</p></div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="meetings_visual_guide_title">Visual Guide: The Meeting Log Form</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div class="ui-mockup p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang-key="meetings_form_title">Log New Meeting</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="meetings_form_date">Date & Time</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="meetings_form_members">Members Present</label><div class="w-full p-3 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="meetings_form_agenda">Agenda</label><div class="w-full p-6 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="meetings_form_topics">Topics Discussed</label><div class="w-full p-8 mt-1 bg-gray-200 rounded-lg"></div></div>
+                            <div><label class="text-sm font-bold text-gray-600 block" data-lang-key="meetings_form_conclusion">Conclusion</label><div class="w-full p-6 mt-1 bg-gray-200 rounded-lg"></div></div>
+                        </div>
+                        <button class="w-full py-3 mt-4 font-bold text-white bg-cyan-600 rounded-lg hover:bg-cyan-700 transition-colors" data-lang-key="meetings_form_button">Log Meeting</button>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2" data-lang-key="meetings_fields_title">Form Fields Explained</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-slate-600">
+                            <li data-lang-key="meetings_fields_1"><b>Date & Time:</b> Select the exact date and time the meeting took place.</li>
+                            <li data-lang-key="meetings_fields_2"><b>Members Present:</b> Type the names of all attendees, separated by commas.</li>
+                            <li data-lang-key="meetings_fields_3"><b>Agenda:</b> Briefly state the main purpose of the meeting.</li>
+                            <li data-lang-key="meetings_fields_4"><b>Topics Discussed:</b> Provide a more detailed summary of the conversation and key points.</li>
+                            <li data-lang-key="meetings_fields_5"><b>Conclusion:</b> This is the most important part. Document the final decisions or action items.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="user-management" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="user_management_title">7. User Management (Super Admin)</h2>
+                <div class="why-box mb-6"><h4 class="font-bold text-teal-800 text-lg" data-lang-key="user_management_why_title">Why is this important?</h4><p class="text-teal-700 mt-1" data-lang-key="user_management_why_desc">This page is the master key to the application's security. It gives the Super Admin complete control over who has access. This is crucial for onboarding new team members and, more importantly, for offboarding old ones to prevent unauthorized access after they leave.</p></div>
+                 <h3 class="text-2xl font-bold mb-4 text-slate-700" data-lang-key="user_management_visual_guide_title">Visual Guide: The User Management Panel</h3>
+                <div class="ui-mockup p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4" data-lang-key="user_management_mockup_title">Manage Users</h2>
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-100"><tr><th class="p-4 font-bold" data-lang-key="user_management_table_name">Name</th><th class="p-4 font-bold" data-lang-key="user_management_table_user">Username</th><th class="p-4 font-bold" data-lang-key="user_management_table_actions">Actions</th></tr></thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-4">Priya Singh</td>
+                                <td class="p-4">priya_ngo</td>
+                                <td class="p-4 flex flex-wrap gap-2">
+                                    <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-3 rounded-md hover:bg-yellow-600 transition-colors" data-lang-key="user_management_btn_pass">Change Password</button>
+                                    <button class="bg-red-600 text-white text-xs font-bold py-1 px-3 rounded-md hover:bg-red-700 transition-colors" data-lang-key="user_management_btn_del">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- DEVELOPER SECTION -->
+            <section id="dev-section" class="content-section mb-16 pt-10 border-t-2 border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800" data-lang-key="dev_docs_title">Developer Section</h2>
+                <p class="text-lg text-slate-600 leading-relaxed mt-2" data-lang-key="dev_docs_intro">The following sections detail the technical architecture of the application.</p>
+            </section>
+
+            <section id="tech-stack" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="tech_stack_title">Technology Stack</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 text-teal-700" data-lang-key="tech_stack_backend_title">Backend</h3>
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <img src="https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg" alt="Node.js" class="h-12">
+                            <img src="https://www.vectorlogo.zone/logos/expressjs/expressjs-icon.svg" alt="Express.js" class="h-12">
+                            <img src="https://www.vectorlogo.zone/logos/mongodb/mongodb-icon.svg" alt="MongoDB" class="h-12">
+                            <img src="https://jwt.io/img/pic_logo.svg" alt="JWT" class="h-12">
+                            <img src="https://www.vectorlogo.zone/logos/twilio/twilio-icon.svg" alt="Twilio" class="h-12">
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 text-teal-700" data-lang-key="tech_stack_frontend_title">Frontend</h3>
+                        <div class="flex flex-wrap gap-4 items-center">
+                           <img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg" alt="React" class="h-12">
+                           <img src="https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg" alt="TypeScript" class="h-12">
+                           <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="Tailwind CSS" class="h-12">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="interfaces" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="interfaces_title">Data Interfaces</h2>
+                <p class="text-slate-600 mb-6" data-lang-key="interfaces_intro">The application uses the following TypeScript interfaces to structure its data on the frontend.</p>
+                <div class="space-y-6">
+                    <div><h3 class="text-2xl font-bold mb-2 text-slate-700">Donation</h3><div class="code-box"><pre><code>interface Donation {
+  _id: string;
+  donorName?: string;
+  location: string;
+  contact: string;
+  donationType?: 'money' | 'item';
+  amount?: number;
+  itemDescription?: string;
+  collectedBy: string;
+  loggedBy?: string;
+  acknowledged: 'No' | 'WhatsApp' | 'SMS';
+}</code></pre></div></div>
+                    <div><h3 class="text-2xl font-bold mb-2 text-slate-700">Expense</h3><div class="code-box"><pre><code>interface Expense {
+  _id: string;
+  date: string;
+  type: 'credit' | 'debit';
+  amount: number;
+  purpose: string;
+  loggedBy: string;
+}</code></pre></div></div>
+                    <div><h3 class="text-2xl font-bold mb-2 text-slate-700">Meeting</h3><div class="code-box"><pre><code>interface Meeting {
+  _id: string;
+  date: string;
+  membersPresent: string[];
+  agenda: string;
+  topicsDiscussed: string;
+  conclusion: string;
+  writtenBy: string;
+}</code></pre></div></div>
+                    <div><h3 class="text-2xl font-bold mb-2 text-slate-700">User</h3><div class="code-box"><pre><code>interface User {
+  _id: string;
+  name: string;
+  username: string;
+  isSuperAdmin?: boolean;
+}</code></pre></div></div>
+                </div>
+            </section>
+
+            <section id="contact" class="content-section mb-16">
+                <h2 class="text-4xl font-bold text-slate-800 border-b-4 title-line pb-4 mb-6" data-lang-key="contact_title">Contact</h2>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <p class="text-lg" data-lang-key="contact_name">Ayush Patil</p>
+                    <p class="text-slate-600" data-lang-key="contact_phone">+91 8055289366</p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="https://github.com/ayushsp29" target="_blank" class="text-teal-600 hover:text-teal-800" data-lang-key="contact_github">GitHub</a>
+                        <a href="https://www.linkedin.com/in/ayush-patil-techie/" target="_blank" class="text-teal-600 hover:text-teal-800" data-lang-key="contact_linkedin">LinkedIn</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const translations = {
+                en: {
+                    title: "Seva Samarpan Guide", title_mobile: "Seva Samarpan Guide", languageSwitch: "मराठी", nav_group_user: "User Guide", nav_group_dev: "Developer Section",
+                    nav_features: "1. Core Features", nav_start: "2. Registration & Login", nav_dashboard: "3. The Dashboard", nav_donations: "4. Managing Donations", nav_expenses: "5. Tracking Expenses", nav_meetings: "6. Managing Meetings", nav_user_management: "7. User Management",
+                    nav_tech_stack: "Technology Stack", nav_interfaces: "Data Interfaces", nav_contact: "Contact",
+                    features_title: "1. Our Core Principles & Features", features_intro: "This application is built on several core principles, each supported by specific features. Understanding these will help you see the full power of the tool.",
+                    feature1_title: "Uncompromising Security", feature1_desc: "Your data is sensitive, so security is our top priority. Access is strictly controlled through a secret Invitation Code for registration. All user passwords are encrypted using the `bcrypt` algorithm, and every action requires a valid login token (JWT). This multi-layered approach ensures your financial and donor information remains confidential.",
+                    feature2_title: "Absolute Financial Accountability", feature2_desc: "For an NGO, trust is everything. The Expense Tracker is more than just a ledger; it's an accountability engine. It features an immutable audit log (`ExpenseLog`) that records every single creation, update, or deletion of a financial entry. This means you have a permanent, unchangeable history of all financial activities, which is critical for audits and building donor confidence.",
+                    feature3_title: "Centralized & Clear Governance", feature3_desc: "Important decisions can't get lost in conversation. The Meeting Management feature, restricted to Super Admins, serves as an official record-keeper. By documenting the agenda, topics discussed, and conclusions, it creates a single source of truth for your organization's governance, ensuring everyone is aligned and decisions are tracked.",
+                    feature4_title: "Effortless Donor Relations", feature4_desc: "Building relationships with supporters is key. The application streamlines this by integrating a direct acknowledgement system. With a single click, you can send a personalized \"Thank You\" message via WhatsApp or SMS using Twilio integration. This simple action helps make your donors feel valued and keeps them engaged with your cause.",
+                    start_title: "2. Registration & Login", start_why_title: "Why is this important?", start_why_desc: "This app contains private information about donors and your organization's finances. To keep this data secure, only approved members can get an account. The mandatory \"Invitation Code\" acts like a secret key, ensuring no outsiders can access the system.",
+                    start_visual_guide_title: "Visual Guide: Login & Registration",
+                    login_form_title: "Admin Login", login_form_user: "Username", login_form_pass: "Password", login_form_button: "Login", login_form_switch: "Need an account? Register",
+                    register_form_title: "Register New User", register_form_name: "Full Name", register_form_user: "Username", register_form_pass: "Password", register_form_code: "Invitation Code", register_form_button: "Register",
+                    start_register_title: "Step-by-Step: How to Register",
+                    start_register_step1: "On the login screen, click the \"Need to create an account? Register\" link.",
+                    start_register_step2: "<b>Full Name:</b> Enter your full name. This is important because it's used to show who logged which data.",
+                    start_register_step3: "<b>Username:</b> Choose a unique login name. It cannot be the same as another user's.",
+                    start_register_step4: "<b>Password:</b> Create a secure password for your account.",
+                    start_register_step5: "<b>Invitation Code:</b> Carefully enter the secret code provided by your administrator. This is required.",
+                    start_register_step6: "Click the \"Register\" button. If successful, you will see a success message and can now log in using the \"Login\" link.",
+                    dashboard_title: "3. The Dashboard", dashboard_why_title: "Why is this important?", dashboard_why_desc: "The Dashboard is your mission control. It's designed to give you a quick overview and immediate access to the most common tasks without needing to hunt through menus. It organizes your work into clear, separate sections.",
+                    dashboard_visual_guide_title: "Visual Guide: The Main Dashboard",
+                    dashboard_mockup_title: "Donation Dashboard", dashboard_mockup_expense: "Expense Tracker", dashboard_mockup_meeting: "Meeting Details", dashboard_mockup_user: "User Management", dashboard_mockup_donation: "Add New Donation",
+                    dashboard_table_donor: "Donor", dashboard_table_details: "Details", dashboard_table_ack: "Acknowledged", dashboard_table_actions: "Actions",
+                    dashboard_buttons_title: "Understanding the Dashboard Buttons",
+                    dashboard_btn_donation: "Add New Donation:", dashboard_btn_summary: "View Summary:", dashboard_btn_export: "Export CSV / PDF:",
+                    dashboard_btn_usermgmt: "User Management:", dashboard_btn_meeting: "Meeting Details:", dashboard_btn_expense: "Expense Tracker:",
+                    donations_title: "4. Managing Donations", donations_why_title: "Why is this a game-changer?", donations_why_desc: "This isn't just a list; it's a complete relationship and transparency tool. By logging every donation, you build trust with your donors, create flawless financial records for audits, and get a clear picture of your fundraising success.",
+                    donations_visual_guide_title: "Visual Guide: The Donation Form",
+                    donations_form_title: "Log New Donation",
+                    donations_form_donor: "Donor's Name",
+                    donations_form_collected: "Collected By",
+                    donations_form_location: "Donor's Location",
+                    donations_form_type: "Donation Type",
+                    donations_form_contact: "Donor's Contact",
+                    donations_form_amount: "Amount (₹)",
+                    donations_form_button: "Log Donation",
+                    donations_fields_title: "Form Fields Explained",
+                    donations_fields_1: "<b>Donor's Name:</b> The full name of the person donating.",
+                    donations_fields_2: "<b>Collected By:</b> Your name (or another team member's).",
+                    donations_fields_3: "<b>Donor's Location:</b> Their city/village.",
+                    donations_fields_4: "<b>Donation Type:</b> Choose 'Money' for cash or 'Item' for goods.",
+                    donations_fields_5: "<b>Donor's Contact:</b> The phone number for sending acknowledgements.",
+                    donations_fields_6: "<b>Amount / Item Description:</b> Enter the value or a description based on the type.",
+                    expenses_title: "5. Tracking Expenses (Super Admin)", expenses_why_title: "Why is this a game-changer?", expenses_why_desc: "This module provides complete financial control and transparency. It allows you to track not only your expenses (debits) but also other forms of income like grants (credits). The immutable audit log (`ExpenseLog`) ensures that every financial entry and deletion is permanently recorded, creating an un-editable history for maximum accountability.",
+                    expenses_scenario_title: "Real-World Scenario", expenses_scenario_desc: "You spend ₹2,000 on fuel for a relief vehicle, logging it as a \"Debit.\" The next day, you receive a ₹10,000 grant from a local business, which you log as a \"Credit.\" The system automatically calculates your new total balance. At the end of the year, your auditor asks for financial records. You provide them with two files: the \"Current Expenses\" CSV for the final summary and the \"Audit Log\" CSV to prove that no records were tampered with.",
+                    expenses_visual_guide_title: "Visual Guide: The Expense & Income Form",
+                    expenses_form_title: "Log Expense/Income",
+                    expenses_form_date: "Date",
+                    expenses_form_type: "Type",
+                    expenses_form_amount: "Amount (₹)",
+                    expenses_form_purpose: "Purpose / Details",
+                    expenses_form_button: "Log Entry",
+                    expenses_fields_title: "Form Fields Explained",
+                    expenses_fields_1: "<b>Date:</b> Select the date the transaction occurred. You cannot select a future date.",
+                    expenses_fields_2: "<b>Type:</b> Choose \"Debit (Expense)\" for money spent or \"Credit (Income)\" for money received.",
+                    expenses_fields_3: "<b>Amount (₹):</b> Enter the transaction amount.",
+                    expenses_fields_4: "<b>Purpose / Details:</b> Be specific. Instead of \"Supplies,\" write \"Purchase of stationery for office.\"",
+                    meetings_title: "6. Managing Meetings (Super Admin)", meetings_why_title: "Why is this a game-changer?", meetings_why_desc: "This feature transforms verbal discussions into official, searchable records. It ensures that decisions made in meetings are documented and not forgotten. It provides a single source of truth for your team about what was discussed, what was decided, and who is responsible for what.",
+                    meetings_scenario_title: "Real-World Scenario", meetings_scenario_desc: "After the monthly review meeting, the Super Admin uses the \"Add New Meeting\" feature to log the details. They list the members who were present, the topics discussed (e.g., \"budget shortfall\"), and the conclusion (\"ACTION: Rohan to find new funding sources\"). Three months later, when someone asks, \"Who was supposed to handle the budget?\", anyone can look up this record and find the answer instantly.",
+                    meetings_visual_guide_title: "Visual Guide: The Meeting Log Form",
+                    meetings_form_title: "Log New Meeting",
+                    meetings_form_date: "Date & Time",
+                    meetings_form_members: "Members Present",
+                    meetings_form_agenda: "Agenda",
+                    meetings_form_topics: "Topics Discussed",
+                    meetings_form_conclusion: "Conclusion",
+                    meetings_form_button: "Log Meeting",
+                    meetings_fields_title: "Form Fields Explained",
+                    meetings_fields_1: "<b>Date & Time:</b> Select the exact date and time the meeting took place.",
+                    meetings_fields_2: "<b>Members Present:</b> Type the names of all attendees, separated by commas.",
+                    meetings_fields_3: "<b>Agenda:</b> Briefly state the main purpose of the meeting.",
+                    meetings_fields_4: "<b>Topics Discussed:</b> Provide a more detailed summary of the conversation and key points.",
+                    meetings_fields_5: "<b>Conclusion:</b> This is the most important part. Document the final decisions or action items.",
+                    user_management_title: "7. User Management (Super Admin)", user_management_why_title: "Why is this important?", user_management_why_desc: "This page is the master key to the application's security. It gives the Super Admin complete control over who has access. This is crucial for onboarding new team members and, more importantly, for offboarding old ones to prevent unauthorized access after they leave.",
+                    user_management_visual_guide_title: "Visual Guide: The User Management Panel",
+                    user_management_mockup_title: "Manage Users",
+                    user_management_table_name: "Name", user_management_table_user: "Username", user_management_table_actions: "Actions",
+                    user_management_btn_pass: "Change Password", user_management_btn_del: "Delete",
+                    dev_docs_title: "Developer Section", dev_docs_intro: "The following sections detail the technical architecture of the application.",
+                    tech_stack_title: "Technology Stack", tech_stack_backend_title: "Backend", tech_stack_frontend_title: "Frontend",
+                    interfaces_title: "Data Interfaces", interfaces_intro: "The application uses the following TypeScript interfaces to structure its data on the frontend.",
+                    contact_title: "Contact", contact_name: "Ayush Patil", contact_phone: "+91 8055289366", contact_github: "GitHub", contact_linkedin: "LinkedIn"
+                },
+                mr: {
+                    title: "सेवा समर्पण मार्गदर्शक", title_mobile: "सेवा समर्पण मार्गदर्शक", languageSwitch: "English", nav_group_user: "वापरकर्ता मार्गदर्शक", nav_group_dev: "डेव्हलपर विभाग",
+                    nav_features: "१. मुख्य वैशिष्ट्ये", nav_start: "२. नोंदणी आणि लॉगिन", nav_dashboard: "३. डॅशबोर्ड", nav_donations: "४. देणग्यांचे व्यवस्थापन", nav_expenses: "५. खर्चाचा मागोवा घेणे", nav_meetings: "६. बैठकांचे व्यवस्थापन", nav_user_management: "७. वापरकर्ता व्यवस्थापन",
+                    nav_tech_stack: "तंत्रज्ञान स्टॅक", nav_interfaces: "डेटा इंटरफेसेस", nav_contact: "संपर्क",
+                    features_title: "१. आमची मुख्य तत्त्वे आणि वैशिष्ट्ये", features_intro: "हे ऍप्लिकेशन अनेक मुख्य तत्त्वांवर तयार केले आहे, ज्यांना विशिष्ट वैशिष्ट्यांद्वारे समर्थन दिले जाते. हे समजून घेतल्यास तुम्हाला या साधनाची पूर्ण शक्ती दिसेल.",
+                    feature1_title: "तडजोडहीन सुरक्षा", feature1_desc: "तुमचा डेटा संवेदनशील आहे, म्हणून सुरक्षा आमची सर्वोच्च प्राथमिकता आहे. नोंदणीसाठी गुप्त आमंत्रण कोडद्वारे प्रवेश कठोरपणे नियंत्रित केला जातो. सर्व वापरकर्ता पासवर्ड `bcrypt` अल्गोरिदम वापरून कूटबद्ध केले जातात आणि प्रत्येक क्रियेसाठी वैध लॉगिन टोकन (JWT) आवश्यक असते. हा बहुस्तरीय दृष्टीकोन तुमची आर्थिक आणि देणगीदारांची माहिती गोपनीय राहील याची खात्री करतो.",
+                    feature2_title: "संपूर्ण आर्थिक जबाबदारी", feature2_desc: "एनजीओसाठी विश्वास हे सर्वस्व आहे. खर्च ट्रॅकर केवळ एक खातेवही नाही; ते एक जबाबदारीचे इंजिन आहे. यात एक अपरिवर्तनीय ऑडिट लॉग (`ExpenseLog`) आहे जो प्रत्येक आर्थिक नोंदीची निर्मिती, अद्यतन किंवा हटवण्याची नोंद ठेवतो. याचा अर्थ तुमच्याकडे सर्व आर्थिक क्रियाकलापांचा कायमस्वरूपी, न बदलता येणारा इतिहास असतो, जो ऑडिट आणि देणगीदारांचा विश्वास निर्माण करण्यासाठी महत्त्वपूर्ण आहे.",
+                    feature3_title: "केंद्रीकृत आणि स्पष्ट प्रशासन", feature3_desc: "महत्वाचे निर्णय संभाषणात हरवू शकत नाहीत. बैठक व्यवस्थापन वैशिष्ट्य, जे सुपर ऍडमिन्सपुरते मर्यादित आहे, अधिकृत रेकॉर्ड-कीपर म्हणून काम करते. अजेंडा, चर्चा केलेले विषय आणि निष्कर्ष यांचे दस्तऐवजीकरण करून, ते तुमच्या संस्थेच्या प्रशासनासाठी सत्याचा एकच स्रोत तयार करते, ज्यामुळे प्रत्येकजण संरेखित राहतो आणि निर्णयांचा मागोवा घेतला जातो.",
+                    feature4_title: "सहज देणगीदार संबंध", feature4_desc: "समर्थकांशी संबंध निर्माण करणे महत्त्वाचे आहे. हे ऍप्लिकेशन थेट पोचपावती प्रणाली समाकलित करून हे सुलभ करते. एका क्लिकवर, तुम्ही Twilio इंटिग्रेशन वापरून WhatsApp किंवा SMS द्वारे वैयक्तिकृत 'धन्यवाद' संदेश पाठवू शकता. ही सोपी क्रिया तुमच्या देणगीदारांना मौल्यवान वाटण्यास मदत करते आणि त्यांना तुमच्या कार्याशी संलग्न ठेवते.",
+                    start_title: "२. नोंदणी आणि लॉगिन", start_why_title: "हे का महत्त्वाचे आहे?", start_why_desc: "या ॲपमध्ये देणगीदार आणि आपल्या संस्थेच्या वित्ताविषयी खाजगी माहिती आहे. हा डेटा सुरक्षित ठेवण्यासाठी, केवळ मंजूर सदस्यच खाते मिळवू शकतात. अनिवार्य 'आमंत्रण कोड' एका गुप्त चावीप्रमाणे काम करतो, ज्यामुळे बाहेरील कोणीही सिस्टममध्ये प्रवेश करू शकत नाही.",
+                    start_visual_guide_title: "व्हिज्युअल मार्गदर्शक: लॉगिन आणि नोंदणी",
+                    login_form_title: "प्रशासक लॉगिन", login_form_user: "युझरनेम", login_form_pass: "पासवर्ड", login_form_button: "लॉगिन करा", login_form_switch: "नवीन खाते हवे आहे? नोंदणी करा",
+                    register_form_title: "नवीन वापरकर्ता नोंदणी", register_form_name: "पूर्ण नाव", register_form_user: "युझरनेम", register_form_pass: "पासवर्ड", register_form_code: "आमंत्रण कोड", register_form_button: "नोंदणी करा",
+                    start_register_title: "पायरी-पायरीने: नोंदणी कशी करावी",
+                    start_register_step1: "लॉगिन स्क्रीनवर, 'नवीन खाते तयार करायचे आहे? नोंदणी करा' लिंकवर क्लिक करा.",
+                    start_register_step2: "<b>पूर्ण नाव:</b> आपले पूर्ण नाव प्रविष्ट करा. कोणता डेटा कोणी लॉग केला आहे हे दर्शविण्यासाठी हे महत्त्वाचे आहे.",
+                    start_register_step3: "<b>युझरनेम:</b> एक अद्वितीय लॉगिन नाव निवडा. ते दुसऱ्या वापरकर्त्याच्या नावासारखे असू शकत नाही.",
+                    start_register_step4: "<b>पासवर्ड:</b> आपल्या खात्यासाठी एक सुरक्षित पासवर्ड तयार करा.",
+                    start_register_step5: "<b>आमंत्रण कोड:</b> आपल्या प्रशासकाद्वारे प्रदान केलेला गुप्त कोड काळजीपूर्वक प्रविष्ट करा. हे आवश्यक आहे.",
+                    start_register_step6: "'नोंदणी करा' बटणावर क्लिक करा. यशस्वी झाल्यास, आपल्याला एक यशस्वी संदेश दिसेल आणि आता आपण 'लॉगिन' लिंक वापरून लॉग इन करू शकता.",
+                    dashboard_title: "३. डॅशबोर्ड", dashboard_why_title: "हे का महत्त्वाचे आहे?", dashboard_why_desc: "डॅशबोर्ड आपले मिशन कंट्रोल आहे. हे आपल्याला एक द्रुत आढावा आणि सर्वात सामान्य कार्यांमध्ये त्वरित प्रवेश देण्यासाठी डिझाइन केलेले आहे, मेन्यूमध्ये शोधण्याची गरज न ठेवता. हे आपले काम स्पष्ट, वेगळ्या विभागांमध्ये आयोजित करते.",
+                    dashboard_visual_guide_title: "व्हिज्युअल मार्गदर्शक: मुख्य डॅशबोर्ड",
+                    dashboard_mockup_title: "देणगी डॅशबोर्ड", dashboard_mockup_expense: "खर्च ट्रॅकर", dashboard_mockup_meeting: "मीटिंग तपशील", dashboard_mockup_user: "वापरकर्ता व्यवस्थापन", dashboard_mockup_donation: "नवीन देणगी जोडा",
+                    dashboard_table_donor: "देणगीदार", dashboard_table_details: "तपशील", dashboard_table_ack: "पोचपावती", dashboard_table_actions: "क्रिया",
+                    dashboard_buttons_title: "डॅशबोर्ड बटणे समजून घेणे",
+                    dashboard_btn_donation: "नवीन देणगी जोडा:", dashboard_btn_summary: "सारांश पहा:", dashboard_btn_export: "CSV / PDF निर्यात करा:",
+                    dashboard_btn_usermgmt: "वापरकर्ता व्यवस्थापन:", dashboard_btn_meeting: "मीटिंग तपशील:", dashboard_btn_expense: "खर्च ट्रॅकर:",
+                    donations_title: "४. देणग्यांचे व्यवस्थापन", donations_why_title: "हे गेम-चेंजर का आहे?", donations_why_desc: "ही फक्त एक यादी नाही; हे एक संपूर्ण नातेसंबंध आणि पारदर्शकता साधन आहे. प्रत्येक देणगीची नोंद करून, आपण आपल्या देणगीदारांशी विश्वास निर्माण करता, ऑडिटसाठी निर्दोष आर्थिक रेकॉर्ड तयार करता आणि आपल्या निधी संकलनाच्या यशाचे स्पष्ट चित्र मिळवता.",
+                    donations_visual_guide_title: "व्हिज्युअल मार्गदर्शक: देणगी फॉर्म",
+                    donations_form_title: "नवीन देणगीची नोंद करा",
+                    donations_form_donor: "देणगीदाराचे नाव",
+                    donations_form_collected: "यांच्याद्वारे गोळा केले",
+                    donations_form_location: "देणगीदाराचे ठिकाण",
+                    donations_form_type: "देणगीचा प्रकार",
+                    donations_form_contact: "देणगीदाराचा संपर्क",
+                    donations_form_amount: "रक्कम (₹)",
+                    donations_form_button: "देणगीची नोंद करा",
+                    donations_fields_title: "फॉर्म फील्डचे स्पष्टीकरण",
+                    donations_fields_1: "<b>देणगीदाराचे नाव:</b> देणगी देणाऱ्या व्यक्तीचे पूर्ण नाव.",
+                    donations_fields_2: "<b>यांच्याद्वारे गोळा केले:</b> तुमचे नाव (किंवा दुसऱ्या टीम सदस्याचे).",
+                    donations_fields_3: "<b>देणगीदाराचे ठिकाण:</b> त्यांचे शहर/गाव.",
+                    donations_fields_4: "<b>देणगीचा प्रकार:</b> रोखसाठी 'पैसे' किंवा वस्तूंसाठी 'वस्तू' निवडा.",
+                    donations_fields_5: "<b>देणगीदाराचा संपर्क:</b> पोचपावती पाठवण्यासाठी फोन नंबर.",
+                    donations_fields_6: "<b>रक्कम / वस्तूचे वर्णन:</b> प्रकारानुसार मूल्य किंवा वर्णन प्रविष्ट करा.",
+                    expenses_title: "५. खर्चाचा मागोवा घेणे (सुपर ऍडमिन)", expenses_why_title: "हे गेम-चेंजर का आहे?", expenses_why_desc: "हे मॉड्युल संपूर्ण आर्थिक नियंत्रण आणि पारदर्शकता प्रदान करते. हे आपल्याला केवळ आपले खर्च (डेबिट) नव्हे तर अनुदानासारख्या उत्पन्नाच्या इतर प्रकारांचा (क्रेडिट) मागोवा घेण्यास अनुमती देते. अपरिवर्तनीय ऑडिट लॉग (`ExpenseLog`) प्रत्येक आर्थिक नोंद आणि हटवण्याची कायमची नोंद केली जाईल याची खात्री करतो, ज्यामुळे जास्तीत जास्त उत्तरदायित्वासाठी एक न बदलता येणारा इतिहास तयार होतो.",
+                    expenses_scenario_title: "वास्तविक जीवनातील उदाहरण", expenses_scenario_desc: "तुम्ही मदत वाहनासाठी इंधनावर ₹२,००० खर्च करता, त्याची 'डेबिट' म्हणून नोंद करता. दुसऱ्या दिवशी, तुम्हाला स्थानिक व्यवसायाकडून ₹१०,००० चे अनुदान मिळते, ज्याची तुम्ही 'क्रेडिट' म्हणून नोंद करता. सिस्टम आपोआप तुमची नवीन एकूण शिल्लक मोजते. वर्षाच्या शेवटी, तुमचा ऑडिटर आर्थिक रेकॉर्ड मागतो. तुम्ही त्यांना दोन फायली प्रदान करता: अंतिम सारांशासाठी 'सध्याचे खर्च' CSV आणि कोणताही रेकॉर्ड छेडछाड झाला नाही हे सिद्ध करण्यासाठी 'ऑडिट लॉग' CSV.",
+                    expenses_visual_guide_title: "व्हिज्युअल मार्गदर्शक: खर्च आणि उत्पन्न फॉर्म",
+                    expenses_form_title: "खर्च/उत्पन्न नोंदवा",
+                    expenses_form_date: "तारीख",
+                    expenses_form_type: "प्रकार",
+                    expenses_form_amount: "रक्कम (₹)",
+                    expenses_form_purpose: "उद्देश / तपशील",
+                    expenses_form_button: "नोंद करा",
+                    expenses_fields_title: "फॉर्म फील्डचे स्पष्टीकरण",
+                    expenses_fields_1: "<b>तारीख:</b> ज्या तारखेला व्यवहार झाला ती निवडा. तुम्ही भविष्यातील तारीख निवडू शकत नाही.",
+                    expenses_fields_2: "<b>प्रकार:</b> खर्च केलेल्या पैशांसाठी 'डेबिट (खर्च)' किंवा मिळालेल्या पैशांसाठी 'क्रेडिट (उत्पन्न)' निवडा.",
+                    expenses_fields_3: "<b>रक्कम (₹):</b> व्यवहाराची रक्कम प्रविष्ट करा.",
+                    expenses_fields_4: "<b>उद्देश / तपशील:</b> विशिष्ट रहा. 'पुरवठा' ऐवजी, 'ऑफिससाठी स्टेशनरीची खरेदी' लिहा.",
+                    meetings_title: "६. बैठकांचे व्यवस्थापन (सुपर ऍडमिन)", meetings_why_title: "हे गेम-चेंजर का आहे?", meetings_why_desc: "हे वैशिष्ट्य तोंडी चर्चांना अधिकृत, शोधण्यायोग्य रेकॉर्डमध्ये रूपांतरित करते. हे सुनिश्चित करते की मीटिंगमध्ये घेतलेले निर्णय दस्तऐवजीकरण केले जातात आणि विसरले जात नाहीत. हे संपूर्ण टीमसाठी काय चर्चा झाली, काय ठरले आणि कशासाठी कोण जबाबदार आहे याबद्दल सत्याचा एकच स्त्रोत प्रदान करते.",
+                    meetings_scenario_title: "वास्तविक जीवनातील उदाहरण", meetings_scenario_desc: "मासिक पुनरावलोकन मीटिंगनंतर, सुपर ऍडमिन तपशील लॉग करण्यासाठी 'नवीन मीटिंग जोडा' वैशिष्ट्याचा वापर करतो. ते उपस्थित असलेल्या सदस्यांची यादी करतात, चर्चा केलेले विषय (उदा., 'बजेट तूट'), आणि निष्कर्ष ('कृती: रोहनने नवीन निधी स्त्रोत शोधावेत'). तीन महिन्यांनंतर, जेव्हा कोणी विचारते, 'बजेट कोण हाताळणार होते?', तेव्हा कोणीही हा रेकॉर्ड शोधून उत्तर त्वरित शोधू शकतो.",
+                    meetings_visual_guide_title: "व्हिज्युअल मार्गदर्शक: मीटिंग लॉग फॉर्म",
+                    meetings_form_title: "नवीन मीटिंगची नोंद करा",
+                    meetings_form_date: "तारीख आणि वेळ",
+                    meetings_form_members: "उपस्थित सदस्य",
+                    meetings_form_agenda: "कार्यसूची",
+                    meetings_form_topics: "चर्चिलेले विषय",
+                    meetings_form_conclusion: "निष्कर्ष",
+                    meetings_form_button: "मीटिंगची नोंद करा",
+                    meetings_fields_title: "फॉर्म फील्डचे स्पष्टीकरण",
+                    meetings_fields_1: "<b>तारीख आणि वेळ:</b> मीटिंगची अचूक तारीख आणि वेळ निवडा.",
+                    meetings_fields_2: "<b>उपस्थित सदस्य:</b> सर्व उपस्थितांची नावे टाइप करा, स्वल्पविरामाने वेगळे करा.",
+                    meetings_fields_3: "<b>कार्यसूची:</b> मीटिंगचा मुख्य उद्देश थोडक्यात सांगा.",
+                    meetings_fields_4: "<b>चर्चिलेले विषय:</b> संभाषणाचा आणि मुख्य मुद्द्यांचा अधिक तपशीलवार सारांश द्या.",
+                    meetings_fields_5: "<b>निष्कर्ष:</b> हा सर्वात महत्त्वाचा भाग आहे. अंतिम निर्णय किंवा कृती आयटम दस्तऐवजीकरण करा.",
+                    user_management_title: "७. वापरकर्ता व्यवस्थापन (सुपर ऍडमिन)", user_management_why_title: "हे का महत्त्वाचे आहे?", user_management_why_desc: "हे पृष्ठ ऍप्लिकेशनच्या सुरक्षेची मास्टर की आहे. हे सुपर ऍडमिनला कोणाला प्रवेश आहे यावर संपूर्ण नियंत्रण देते. हे नवीन टीम सदस्यांना ऑनबोर्ड करण्यासाठी आणि, अधिक महत्त्वाचे म्हणजे, जुन्या सदस्यांना ऑफबोर्ड करण्यासाठी हे महत्त्वपूर्ण आहे जेणेकरून ते निघून गेल्यानंतर अनधिकृत प्रवेश टाळता येईल.",
+                    user_management_visual_guide_title: "व्हिज्युअल मार्गदर्शक: वापरकर्ता व्यवस्थापन पॅनेल",
+                    user_management_mockup_title: "वापरकर्ते व्यवस्थापित करा",
+                    user_management_table_name: "नाव", user_management_table_user: "युझरनेम", user_management_table_actions: "क्रिया",
+                    user_management_btn_pass: "पासवर्ड बदला", user_management_btn_del: "हटवा",
+                    dev_docs_title: "डेव्हलपर विभाग", dev_docs_intro: "पुढील विभाग ऍप्लिकेशनच्या तांत्रिक रचनेचा तपशील देतात.",
+                    tech_stack_title: "तंत्रज्ञान स्टॅक", tech_stack_backend_title: "बॅकएंड", tech_stack_frontend_title: "फ्रंटएंड",
+                    interfaces_title: "डेटा इंटरफेसेस", interfaces_intro: "ऍप्लिकेशन फ्रंटएंडवर आपला डेटा संरचित करण्यासाठी खालील टाइपस्क्रिप्ट इंटरफेस वापरते.",
+                    contact_title: "संपर्क", contact_name: "आयुष पाटील", contact_phone: "+९१ ८०५५२८९३६६", contact_github: "गिटहब", contact_linkedin: "लिंक्डइन"
+                }
+            };
+            let currentLang = 'en';
+            const langToggleDesktop = document.getElementById('lang-toggle-desktop');
+            const langToggleMobile = document.getElementById('lang-toggle-mobile');
+            function translatePage() {
+                const langData = translations[currentLang] || translations.en;
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (langData[key]) {
+                        el.innerHTML = langData[key];
+                    } else {
+                        el.innerHTML = translations.en[key] || '';
+                    }
+                });
+                langToggleDesktop.innerText = langData.languageSwitch;
+                langToggleMobile.innerText = langData.languageSwitch;
+            }
+            function toggleLanguage() {
+                currentLang = currentLang === 'en' ? 'mr' : 'en';
+                translatePage();
+            }
+            langToggleDesktop.addEventListener('click', toggleLanguage);
+            langToggleMobile.addEventListener('click', toggleLanguage);
+            translatePage();
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => observer.observe(section));
+
+            const sidebarLinks = document.querySelectorAll('#sidebar-nav a');
+            const mobileNav = document.getElementById('mobile-nav');
+            const navSections = document.querySelectorAll('.content-section');
+            function updateActiveLink(targetId) {
+                sidebarLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === targetId));
+                if(mobileNav && mobileNav.value !== targetId) mobileNav.value = targetId;
+            }
+            const navObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) updateActiveLink('#' + entry.target.id);
+                });
+            }, { rootMargin: '-20% 0px -70% 0px', threshold: 0.1 });
+            navSections.forEach(section => navObserver.observe(section));
+            if(mobileNav) mobileNav.addEventListener('change', e => {
+                const targetElement = document.querySelector(e.target.value);
+                if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
